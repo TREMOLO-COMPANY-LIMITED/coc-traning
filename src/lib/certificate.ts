@@ -65,12 +65,12 @@ export async function uploadCertificatePdf(fileName: string, pdf: Buffer) {
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     const blob = await put(blobPath, pdf, {
-      access: "public",
+      access: "private",
       contentType: "application/pdf",
       token: process.env.BLOB_READ_WRITE_TOKEN,
       addRandomSuffix: false,
     });
-    return blob.url;
+    return `/api/certificate/view?pathname=${encodeURIComponent(blob.pathname)}`;
   }
 
   const outputDir = path.join(process.cwd(), "public", "certificates");
